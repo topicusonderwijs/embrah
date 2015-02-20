@@ -1,6 +1,19 @@
 # Ember-cli-embrah
 
-This README outlines the details of collaborating on this Ember addon.
+Cobra REST Serializer en Adapter voor Ember Data.
+
+## Gebruiken in je ember-cli project
+
+* `cd mijn-ember-cli-project`
+* `npm install topicusonderwijs/embrah`
+
+## Lokaal uitchecken en gebruiken in je ember-cli project
+
+* `git clone git@github.com:topicusonderwijs/embrah.git`
+* `cd embrah`
+* `npm link`
+* `cd mijn-ember-cli-project`
+* `npm link ember-cli-embrah`
 
 ## Installation
 
