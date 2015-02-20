@@ -2,5 +2,5 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-cli-embra'
+  name: 'ember-cli-embrah'
 };

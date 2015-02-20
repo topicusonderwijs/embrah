@@ -1,5 +1,5 @@
 {
-  "name": "ember-cli-embra",
+  "name": "ember-cli-embrah",
   "dependencies": {
     "handlebars": "2.0.0",
     "jquery": "2.1.3",
