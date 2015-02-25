@@ -63,6 +63,10 @@ export default DS.RESTSerializer.extend({
 		if (Ember.isNone(hash) || (!Ember.isArray(hash) && (typeof hash !== 'object'))) return;
 
 		if (!Ember.isNone(hash.additionalObjects)) {
+			// Verplaats additionalObjects naar het bovenliggende object
+			Ember.keys(hash.additionalObjects).forEach(function (key){
+				hash[key] = hash.additionalObjects[key];
+			});
 			delete hash.additionalObjects;
 		}
 		if (!Ember.isNone(hash.permissions)) {
