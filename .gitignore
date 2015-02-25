@@ -20,3 +20,6 @@ testem.log
 
 # don't ignore these
 !.gitignore
+
+# Negeer Webstorm / Intellij project directory
+.idea
