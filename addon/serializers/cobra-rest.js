@@ -8,9 +8,9 @@ export default DS.RESTSerializer.extend({
 		return this._super(type, hash, prop);
 	},
 
-	serialize: function(record, options) {
-		var json = this._super(record, options);
-		var id = record.get('id');
+	serialize: function(snapshot, options) {
+		var json = this._super(snapshot, options);
+		var id = snapshot.id;
 		// get the id of the record and create a self-link with that id
 		if (!Ember.isNone(id)) {
 			json.links = [{
@@ -21,14 +21,12 @@ export default DS.RESTSerializer.extend({
 		// check each relationship
 		// replace belongTo relationships with an object with self-links containing the id
 		// replace hasMany relationships with an array of self-links containing the id
-		record.eachRelationship(function(name, relationship) {
+		snapshot.eachRelationship(function(name, relationship) {
 			var recordValue;
 			if (relationship.kind === 'hasMany') {
 				json[name] = [];
 
-				recordValue = record.get(name);
-				if (recordValue.get('content.isLoaded') !== true && recordValue.get('isFulfilled') !== true )
-					recordValue = record.get('data.' + name);
+				recordValue = snapshot.hasMany(name);
 
 				if (!Ember.isNone(recordValue)) {
 					recordValue.mapBy('id').forEach(function(relId) {
@@ -42,12 +40,12 @@ export default DS.RESTSerializer.extend({
 				}
 			} else {
 				json[name] = null;
-				recordValue = record.get(name);
+				recordValue = snapshot.belongsTo(name);
 
 				if (!Ember.isNone(recordValue)) {
 					json[name] = {
 						links: [{
-							'id': recordValue.get('id'),
+							'id': recordValue.id,
 							'rel': 'self'
 						}]
 					};
