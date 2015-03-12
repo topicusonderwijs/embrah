@@ -1,5 +1,5 @@
-import Ember from "ember";
-import DS from "ember-data";
+import Ember from 'ember';
+import DS from 'ember-data';
 
 export default DS.RESTSerializer.extend({
 
@@ -42,7 +42,7 @@ export default DS.RESTSerializer.extend({
 				json[name] = null;
 				recordValue = snapshot.belongsTo(name);
 
-				if (!Ember.isNone(recordValue)) {
+				if (!Ember.isNone(recordValue.id)) {
 					json[name] = {
 						links: [{
 							'id': recordValue.id,
