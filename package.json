@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-embrah",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Shared functionality for Topicus Onderwijs Ember Apps",
   "directories": {
     "doc": "doc",
