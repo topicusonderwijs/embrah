@@ -58,7 +58,9 @@ export default DS.RESTSerializer.extend({
 	_parseLinkables: function(hash) {
 		var self = this;
 		// check properties of hash for more linkables
-		if (Ember.isNone(hash) || (!Ember.isArray(hash) && (typeof hash !== 'object'))) return;
+		if (Ember.isNone(hash) || (!Ember.isArray(hash) && (typeof hash !== 'object'))) {
+			return;
+		}
 
 		if (!Ember.isNone(hash.additionalObjects)) {
 			// Verplaats additionalObjects naar het bovenliggende object
@@ -79,9 +81,14 @@ export default DS.RESTSerializer.extend({
 
 		// look inside the hash properties for relations in the form of an array or object containing links
 		Ember.keys(hash).forEach(function(key) {
-			if (key === 'links' || key === 'id') return;
+			if (key === 'links' || key === 'id') {
+				return;
+			}
+
 			var object = hash[key];
-			if (Ember.isNone(object) || (!Ember.isArray(object) && (typeof object !== 'object'))) return;
+			if (Ember.isNone(object) || (!Ember.isArray(object) && (typeof object !== 'object'))) {
+				return;
+			}
 
 			// if the object is an array with relations, get all the ids and place them in an array
 			// then replace the object array with the array with ids so Ember can figure out the relation
