@@ -16,8 +16,9 @@ export default DS.RESTAdapter.extend({
 		} else {
 			this.set('headers.' + this.get('customAuthHeader'), '');
 		}
-		if (type !== 'GET')
+		if (type !== 'GET') {
 			this.set('headers.Content-Type', this.get('customMediaType'));
+		}
 
 		return this._super(url, type, hash);
 	},
@@ -32,10 +33,12 @@ export default DS.RESTAdapter.extend({
 				// als de status 0 is betekent dat connection error
 				// voor 404 (not found) en 5xx willen we het ook opnieuw proberen
 				// dat kan duiden op server errors
-				if (reason.status === 0 || reason.status === 404 || reason.status >= 500)
+				if (reason.status === 0 || reason.status === 404 || reason.status >= 500) {
 					return self.ajax(url, type, options, true);
-				else
+				}
+				else {
 					throw reason;
+				}
 			});
 		} else {
 			return this._super(url, type, options);
