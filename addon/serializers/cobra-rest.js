@@ -3,6 +3,12 @@ import DS from 'ember-data';
 
 export default DS.RESTSerializer.extend({
 
+	/*	Deze functie overriden omdat er een bug zit in Ember data
+		https://github.com/emberjs/data/issues/2978 */
+	modelNameFromPayloadKey: function(argument) {
+		return Ember.Inflector.inflector.singularize(argument);
+	},
+
 	normalize: function(type, hash, prop) {
 		this._parseLinkables(hash);
 		return this._super(type, hash, prop);
@@ -64,7 +70,7 @@ export default DS.RESTSerializer.extend({
 
 		if (!Ember.isNone(hash.additionalObjects)) {
 			// Verplaats additionalObjects naar het bovenliggende object
-			Ember.keys(hash.additionalObjects).forEach(function (key){
+			Ember.keys(hash.additionalObjects).forEach(function(key) {
 				hash[key] = hash.additionalObjects[key];
 			});
 			delete hash.additionalObjects;

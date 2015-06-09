@@ -8,14 +8,7 @@ export default CobraRestAdapter.extend({
 
   customMediaType: ENV.embrah.customMediaType,
 
-  customAuthHeader: function() {
-    return ENV.embrah.customAuthHeader;
-  }.property(),
-
+  customAuthHeader: ENV.embrah.customAuthHeader,
   host: ENV.embrah.host,
-
-  namespace: function() {
-    return ENV.embrah.namespace;
-  }.property()
-
+  namespace: ENV.embrah.namespace,
 });
