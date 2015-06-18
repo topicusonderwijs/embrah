@@ -11,7 +11,7 @@ export default DS.RESTAdapter.extend({
 		return true;
 	},
 
-	// FIXME: Tijdelijke fix ivm deprecation 
+	// FIXME: Tijdelijke fix ivm deprecation
 	shouldBackgroundReloadRecord: function() {
 		return false;
 	},
@@ -34,21 +34,12 @@ export default DS.RESTAdapter.extend({
 	},
 
 	/**
-	 * ajax implementatie die 1x opnieuw probeert bij status codes 0, 404 en >= 500
+	 * ajax implementatie die 1x opnieuw probeert als de request faalt.
 	 **/
 	ajax: function(url, type, options, isRetry) {
-		var self = this;
 		if (Ember.isNone(isRetry) || isRetry === false) {
-			return this._super(url, type, options).then(null, function(reason) {
-				// als de status 0 is betekent dat connection error
-				// voor 404 (not found) en 5xx willen we het ook opnieuw proberen
-				// dat kan duiden op server errors
-				if (reason.status === 0 || reason.status === 404 || reason.status >= 500) {
-					return self.ajax(url, type, options, true);
-				}
-				else {
-					throw reason;
-				}
+			return this._super(url, type, options).then(null, () => {
+				return this.ajax(url, type, options, true);
 			});
 		} else {
 			return this._super(url, type, options);
