@@ -2,6 +2,7 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.RESTSerializer.extend({
+	isNewSerializerAPI: true,
 
 	/*	Deze functie overriden omdat er een bug zit in Ember data
 		https://github.com/emberjs/data/issues/2978 */
