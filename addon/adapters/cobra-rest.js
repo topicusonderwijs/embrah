@@ -6,6 +6,16 @@ import DS from 'ember-data';
  **/
 export default DS.RESTAdapter.extend({
 
+	// FIXME: Tijdelijke fix ivm deprecation
+	shouldReloadAll: function() {
+		return true;
+	},
+
+	// FIXME: Tijdelijke fix ivm deprecation 
+	shouldBackgroundReloadRecord: function() {
+		return false;
+	},
+
 	headers: {},
 
 	ajaxOptions: function(url, type, hash) {
