@@ -39,9 +39,6 @@ export default DS.RESTAdapter.extend({
 	ajax: function(url, type, options, isRetry) {
 		if (Ember.isNone(isRetry) || isRetry === false) {
 			return this._super(url, type, options).then(null, () => {
-				if (type !== 'GET' && options && options.data && typeof options.data === 'string') {
-					options.data = JSON.parse(options.data);
-				}
 				return this.ajax(url, type, options, true);
 			});
 		} else {
