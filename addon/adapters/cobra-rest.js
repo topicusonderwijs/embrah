@@ -38,15 +38,33 @@ export default DS.RESTAdapter.extend({
 	 **/
 	ajax: function(url, type, options, isRetry) {
 		if (Ember.isNone(isRetry) || isRetry === false) {
-			return this._super(url, type, options).then(null, () => {
-				if (type !== 'GET' && options && options.data && typeof options.data === 'string') {
-					options.data = JSON.parse(options.data);
+			return this._super(url, type, options).then(null, (error) => {
+				console.log(error instanceof DS.AdapterError);
+				if (error instanceof DS.AdapterError) {
+					var statusCode = this._getStatusCode(error);
+					if (statusCode && (statusCode === 0 || statusCode === 404 || statusCode >= 500)) {
+						if (type !== 'GET' && Ember.isPresent(options) && Ember.isPresent(options.data) && typeof options.data === 'string') {
+							options.data = JSON.parse(options.data);
+						}
+						return this.ajax(url, type, options, true);
+					}
 				}
-				return this.ajax(url, type, options, true);
+				return error;
 			});
 		} else {
 			return this._super(url, type, options);
 		}
+	},
+
+	_getStatusCode: function(error) {
+		if (Ember.isPresent(error.errors)) {
+			for (var i = 0; i < error.errors.length; i++) {
+				if (error.errors[i].status && !isNaN(error.errors[i].status)) {
+					return parseInt(error.errors[i].status);
+				}
+			}
+		}
+		return null;
 	},
 
 	/**
