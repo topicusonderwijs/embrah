@@ -48,7 +48,11 @@ export default DS.RESTAdapter.extend({
 						return this.ajax(url, type, options, true);
 					}
 				}
-				return error;
+				// return een rejectende promise met error voor graceful handling
+				// voor errors die we niet retry-en
+				return new Ember.RSVP.Promise((resolve, reject) => {
+					reject(error);
+				});
 			});
 		} else {
 			return this._super(url, type, options);
