@@ -39,7 +39,6 @@ export default DS.RESTAdapter.extend({
 	ajax: function(url, type, options, isRetry) {
 		if (Ember.isNone(isRetry) || isRetry === false) {
 			return this._super(url, type, options).then(null, (error) => {
-				console.log(error instanceof DS.AdapterError);
 				if (error instanceof DS.AdapterError) {
 					var statusCode = this._getStatusCode(error);
 					if (statusCode && (statusCode === 0 || statusCode === 404 || statusCode >= 500)) {
