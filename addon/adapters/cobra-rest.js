@@ -41,7 +41,7 @@ export default DS.RESTAdapter.extend({
 			return this._super(url, type, options).then(null, (error) => {
 				if (error instanceof DS.AdapterError) {
 					var statusCode = this._getStatusCode(error);
-					if (statusCode && (statusCode === 0 || statusCode === 404 || statusCode >= 500)) {
+					if (statusCode !== null && (statusCode === 0 || statusCode === 404 || statusCode >= 500)) {
 						if (type !== 'GET' && Ember.isPresent(options) && Ember.isPresent(options.data) && typeof options.data === 'string') {
 							options.data = JSON.parse(options.data);
 						}
@@ -62,7 +62,7 @@ export default DS.RESTAdapter.extend({
 	_getStatusCode: function(error) {
 		if (Ember.isPresent(error.errors)) {
 			for (var i = 0; i < error.errors.length; i++) {
-				if (error.errors[i].status && !isNaN(error.errors[i].status)) {
+				if (Ember.isPresent(error.errors[i].status) && !isNaN(error.errors[i].status)) {
 					return parseInt(error.errors[i].status);
 				}
 			}
