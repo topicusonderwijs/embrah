@@ -71,7 +71,7 @@ export default DS.RESTSerializer.extend({
 
 		if (!Ember.isNone(hash.additionalObjects)) {
 			// Verplaats additionalObjects naar het bovenliggende object
-			Ember.keys(hash.additionalObjects).forEach(function(key) {
+			Object.keys(hash.additionalObjects).forEach(function(key) {
 				hash[key] = hash.additionalObjects[key];
 			});
 			delete hash.additionalObjects;
@@ -87,7 +87,7 @@ export default DS.RESTSerializer.extend({
 		}
 
 		// look inside the hash properties for relations in the form of an array or object containing links
-		Ember.keys(hash).forEach(function(key) {
+		Object.keys(hash).forEach(function(key) {
 			if (key === 'links' || key === 'id') {
 				return;
 			}
