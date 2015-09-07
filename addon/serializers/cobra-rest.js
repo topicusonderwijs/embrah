@@ -10,6 +10,25 @@ export default DS.RESTSerializer.extend({
 		return Ember.Inflector.inflector.singularize(argument);
 	},
 
+	// cobra wil geen type naam
+	serializeIntoHash: function(hash, type, snapshot, options) {
+		return Ember.merge(hash, this.serialize(snapshot, options));
+	},
+
+	// ember wil ipv een type naam, niet 'items'
+    extract: function(store, type, payload, id, requestType) {
+		var resourceName = type.typeKey;
+		if (payload.items) {
+			payload[resourceName] = payload.items;
+			delete payload.items;
+			return this._super(store, type, payload, id, requestType);
+		} else {
+			var payloadEmber = {};
+			payloadEmber[resourceName] = payload;
+			return this._super(store, type, payloadEmber, id, requestType);
+		}
+	},
+
 	normalize: function(type, hash, prop) {
 		this._parseLinkables(hash);
 		return this._super(type, hash, prop);
