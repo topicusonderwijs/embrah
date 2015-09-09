@@ -21,7 +21,7 @@ export default DS.RESTAdapter.extend({
 	ajaxOptions: function(url, type, hash) {
 		this.set('headers.Accept', this.get('customMediaType'));
 		var cookie = this.getBasicAuthCookie();
-		if (!Ember.isNone(this.get('customAuthHeader')) {
+		if (!Ember.isNone(this.get('customAuthHeader'))) {
 			if (!Ember.isNone(cookie) && !Ember.isNone(cookie.basicAuth)) {
 				this.set('headers.' + this.get('customAuthHeader'), cookie.basicAuth);
 			} else {
