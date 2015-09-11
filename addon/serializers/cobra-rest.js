@@ -4,10 +4,8 @@ import DS from 'ember-data';
 export default DS.RESTSerializer.extend({
 	isNewSerializerAPI: true,
 
-	/*	Deze functie overriden omdat er een bug zit in Ember data
-		https://github.com/emberjs/data/issues/2978 */
 	modelNameFromPayloadKey: function(argument) {
-		return Ember.Inflector.inflector.singularize(argument);
+		return Ember.Inflector.inflector.singularize(Ember.String.dasherize(argument));
 	},
 
 	normalize: function(type, hash, prop) {
