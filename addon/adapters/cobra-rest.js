@@ -73,9 +73,9 @@ export default DS.RESTAdapter.extend({
 	},
 
 	/**
-	 * Use jQuery Cookie to fetch the value of the auth cookie
+	 * Use js-cookie to fetch the value of the auth cookie
 	 **/
 	getBasicAuthCookie: function() {
-		return $.cookie(this.get('basicAuthCookieKey'));
+		return Cookies.get(this.get('basicAuthCookieKey'));
 	}
 });
