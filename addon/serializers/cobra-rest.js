@@ -3,6 +3,7 @@ import DS from 'ember-data';
 
 export default DS.RESTSerializer.extend({
 	isNewSerializerAPI: true,
+  doGenerateSelfLinks: true,
 
 	modelNameFromPayloadKey: function(argument) {
 		return Ember.Inflector.inflector.singularize(Ember.String.dasherize(argument));
@@ -14,15 +15,20 @@ export default DS.RESTSerializer.extend({
 	},
 
 	serialize: function(snapshot, options) {
-		var json = this._super(snapshot, options);
+    var self = this;
+    var json = this._super(snapshot, options);
 		var id = snapshot.id;
 		// get the id of the record and create a self-link with that id
-		if (!Ember.isNone(id)) {
-			json.links = [{
-				'id': id,
-				'rel': 'self'
-			}];
-		}
+
+    if (this.doGenerateSelfLinks) {
+      if (!Ember.isNone(id)) {
+      	json.links = [{
+      		'id': id,
+      		'rel': 'self'
+      	}];
+      }
+    }
+
 		// check each relationship
 		// replace belongTo relationships with an object with self-links containing the id
 		// replace hasMany relationships with an array of self-links containing the id
@@ -44,17 +50,17 @@ export default DS.RESTSerializer.extend({
 					});
 				}
 			} else {
-				json[name] = null;
-				recordValue = snapshot.belongsTo(name);
+				if (self.doGenerateSelfLinks) {
+          json[name] = null;
+          recordValue = snapshot.belongsTo(name);
 
-				if (!Ember.isNone(recordValue) && !Ember.isNone(recordValue.id)) {
-					json[name] = {
-						links: [{
-							'id': recordValue.id,
-							'rel': 'self'
-						}]
-					};
-				}
+          if (!Ember.isNone(recordValue) && !Ember.isNone(recordValue.id)) {
+            json[name].links =  [{
+              'id': recordValue.id,
+              'rel': 'self'
+            }];
+          }
+        }
 			}
 		});
 		return json;
