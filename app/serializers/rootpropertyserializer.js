@@ -15,7 +15,7 @@ export default CobraRestSerializer.extend({
   },
 
   normalizeSingleResponse: function(store, type, payload, id, requestType) {
-    var resourceName = type.typeKey;
+    var resourceName = type.modelName;
     if (payload.items) {
       payload[resourceName] = payload.items;
       delete payload.items;
